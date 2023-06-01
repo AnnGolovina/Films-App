@@ -1,5 +1,5 @@
 class App {
-  static API_KEY = "2ecc6a18f1msh149a8c93469a116p1ff3e3jsn92ea038f0326";
+  static API_KEY = "1f33e47047msh3f74868d842cb43p1a9ab9jsn640751cfde85";
   static SEARCH_URL =
     "https://online-movie-database.p.rapidapi.com/auto-complete?q=";
   static DEFAULT_HEADERS = {
@@ -7,7 +7,7 @@ class App {
     "X-RapidAPI-Host": "online-movie-database.p.rapidapi.com",
   };
 
-  static button = document.querySelector("button");
+  static searchButton = document.querySelector("#search-button");
   static input = document.querySelector("input");
   static output = document.querySelector("#output");
 
@@ -17,7 +17,7 @@ class App {
 
     //App.button.onclick = this.onButtonClick;
     //App.button.onclick = this.onButtonClick.bind(this);
-    App.button.onclick = () => this.onButtonClick();
+    App.searchButton.onclick = () => this.onButtonClick();
   }
 
   onInputChange() {}
@@ -48,6 +48,11 @@ class App {
     }
   }
 
+  addWatchList(film) {
+    const oldWatchList = JSON.parse(localStorage.getItem("watchList") || "[]");
+    localStorage.setItem("watchList", JSON.stringify([...oldWatchList, film]));
+  }
+
   renderData(dataToRender, outputElement = App.output) {
     outputElement.innerHTML = "";
 
@@ -70,12 +75,26 @@ class App {
       };
 
       outputElement.innerHTML += `<div class="film-elem">
+      <div>
         <img src="${imageUrl}" />
         <h3>${title}</h3>
         <span>Rating: ${rank}</span>
         <span>Actors: ${actors}</span>
-        <span>Year: ${year}</span>
-      </div>`;
+        <span>Year: ${year || "unknown"}</span>
+        </div>
+        <div class="btn-wrapper">
+        <button class="btn-watch-later">Add To Watch Later</button>
+        </div>
+      </div>
+      `;
+    });
+
+    const filmsBtn = document.querySelectorAll(".btn-watch-later");
+
+    [...filmsBtn].forEach((e, i) => {
+      e.onclick = () => {
+        this.addWatchList(dataToRender[i]);
+      };
     });
   }
 

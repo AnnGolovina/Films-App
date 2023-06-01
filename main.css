@@ -6,15 +6,15 @@ body {
 	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
+	height: 100vh;
 }
 
 .search-form {
 	border: 1px solid white;
 	padding: 2em;
 	border-radius: 20px;
-
+	margin: 50px;
 }
 
 .search-form > input, .search-form > button {
@@ -22,15 +22,22 @@ body {
 }
 
 .film-elem {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 	margin: 10px;
 	border: 1px solid white;
 	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
 	padding: 10px;
 }
 
-.film-elem > img {
+.film-elem > div:first-child {
+	
+	display: flex;
+	flex-direction: column;
+}
+
+.film-elem > div > img {
 	object-fit: contain;
 	width: 300px;
 	height: auto;
@@ -42,4 +49,30 @@ section {
 	width: 80%;
 	height: auto;
 	flex-wrap: wrap;
+}
+
+.film-elem div:last-child {
+	margin: 15px 0;
+}
+
+.btn-watch-later {
+	width: auto;
+	height: 30px;
+	margin: auto;
+	border-radius: 10px;
+}
+
+header {
+	position: sticky;
+	top: 0;
+	padding: 20px;
+}
+
+header > button {
+	font-size: 20px;
+
+}
+
+#watchList {
+	visibility: hidden;
 }

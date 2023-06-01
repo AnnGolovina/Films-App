@@ -8,13 +8,14 @@ body {
 	flex-direction: column;
 	align-items: center;
 	height: 100vh;
+	overflow-x:hidden ;
 }
 
 .search-form {
 	border: 1px solid white;
 	padding: 2em;
 	border-radius: 20px;
-	margin: 50px;
+	margin: 150px;
 }
 
 .search-form > input, .search-form > button {
@@ -60,17 +61,26 @@ section {
 	height: 30px;
 	margin: auto;
 	border-radius: 10px;
+	align-items: center;
+	justify-content: center;
 }
 
 header {
-	position: sticky;
+	position: fixed;
 	top: 0;
 	padding: 20px;
+	width: 100%;
+	background-color: #313030;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+
 }
 
 header > button {
 	font-size: 20px;
-
+	width: 300px;	
+	border-radius: 10px;
 }
 
 #watchList {

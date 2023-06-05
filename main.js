@@ -34,13 +34,7 @@ class App {
 
     App.watchListRandomButton.onclick = () => {
       //terningn border colors back
-      [...document.querySelectorAll(".film-elem")].forEach((el) => {
-        if (this.checkIfWatchListContainsFilm(el.id)) {
-          el.style.border = "2px solid #6e128a";
-        } else {
-          el.style.border = "1px solid white";
-        }
-      });
+      this.turningColorBorder();
 
       const randomFilmData =
         this.getRandomFilm(
@@ -59,6 +53,16 @@ class App {
     };
 
     App.input.oninput = (e) => this.onInputChange(e);
+  }
+
+  turningColorBorder() {
+    [...document.querySelectorAll(".film-elem")].forEach((el) => {
+      if (this.checkIfWatchListContainsFilm(el.id)) {
+        el.style.border = "2px solid #6e128a";
+      } else {
+        el.style.border = "1px solid white";
+      }
+    });
   }
 
   onInputChange(e) {
@@ -146,9 +150,9 @@ class App {
       } = film;
       const { imageUrl, width, height } = imageData || {
         imageUrl:
-          "https://images.all-free-download.com/images/graphicwebp/photo_video_sign_icon_flat_contrast_silhouette_geometric_outline_6921635.webp",
-        width: 1000,
-        height: 1000,
+          "https://media.istockphoto.com/id/855281406/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D1%84%D0%B8%D0%BB%D1%8C%D0%BC-%D0%B8-%D1%84%D0%B8%D0%BB%D1%8C%D0%BC-%D1%81%D0%BE%D0%B2%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D1%8B%D0%B9-%D1%80%D0%B5%D1%82%D1%80%D0%BE-%D1%81%D1%82%D0%B0%D1%80%D0%B8%D0%BD%D0%BD%D1%8B%D0%B9-%D0%BF%D0%BB%D0%B0%D0%BA%D0%B0%D1%82-%D1%84%D0%BE%D0%BD.jpg?s=612x612&w=0&k=20&c=NuzqGm467C0PYO425FZZDR6j6EUfwQqUb2OKVNjDqTE=",
+        width: 300,
+        height: 400,
       };
 
       const isFilmAddedToWatchList = this.checkIfWatchListContainsFilm(id);
@@ -176,6 +180,10 @@ class App {
 
     const filmsBtn = document.querySelectorAll(".btn-watch-later");
 
+    const filmElement = [...document.querySelectorAll(".film-elem")];
+
+    console.log(filmElement, "FE");
+
     [...filmsBtn].forEach((e, i) => {
       e.onclick = () => {
         const currentFilm = dataToRender[i];
@@ -183,9 +191,15 @@ class App {
           this.removeWatchListData(currentFilm.id);
           isUsingAsWatchList &&
             this.renderData(this.getWatchListData(), App.watchListOutput, true);
+
+          this.turningColorBorder();
+
           e.textContent = "Add To Watch Later";
         } else {
           this.addWatchList(currentFilm);
+
+          this.turningColorBorder();
+
           e.textContent = "Delete From Watch List";
         }
       };

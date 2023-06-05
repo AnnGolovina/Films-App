@@ -66,14 +66,8 @@ button:active {
 
 .film-elem h3 {
 	font-size: 25px;
+	text-align: center;
   }
-
-
-/*.film-elem span {
-	font-size: 18px;
-	max-width: 350px;
-	white-space: break-spaces;
-}*/
 
 .film-elem > div:first-child {
 	

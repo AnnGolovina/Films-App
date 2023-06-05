@@ -14,20 +14,63 @@ class App {
   static watchListSwitcher = document.querySelector("#watch-list-switcher");
   static watchListRandomButton = document.querySelector("#random-film-btn");
 
+  static SECTION = {
+    main: "main",
+    filmList: "filmList",
+  };
+
   constructor(data = [], watchList = []) {
     this.data = data;
     this.watchList = watchList;
+    this.currentSection = App.SECTION.main;
 
-    //App.button.onclick = this.onButtonClick;
     //App.button.onclick = this.onButtonClick.bind(this);
     App.searchButton.onclick = () => this.onButtonClick();
-    App.watchListSwitcher.onclick = () => this.renderWatchList();
-    App.watchListRandomButton.onclick = () =>
-      console.log(this.getRandomFilm(), "!!!!");
+
+    App.watchListSwitcher.onclick = () =>
+      this.currentSection === App.SECTION.main
+        ? this.renderWatchList()
+        : this.renderMainView();
+
+    App.watchListRandomButton.onclick = () => {
+      //terningn border colors back
+      [...document.querySelectorAll(".film-elem")].forEach((el) => {
+        if (this.checkIfWatchListContainsFilm(el.id)) {
+          el.style.border = "2px solid #6e128a";
+        } else {
+          el.style.border = "1px solid white";
+        }
+      });
+
+      const randomFilmData =
+        this.getRandomFilm(
+          this.currentSection === App.SECTION.main
+            ? this.data
+            : this.getWatchListData()
+        ) || null;
+
+      if (!randomFilmData) return alert("There is no random film");
+
+      const randomFilmElement = document.querySelector(`#${randomFilmData.id}`);
+
+      randomFilmElement.style.border = "1px solid lime";
+
+      randomFilmElement.scrollIntoView({ behavior: "smooth" });
+    };
+
+    App.input.oninput = (e) => this.onInputChange(e);
   }
 
-  onInputChange() {
-    const watchListData = this.getWatchListData();
+  onInputChange(e) {
+    if (this.currentSection === App.SECTION.filmList) {
+      const films = this.getWatchListData();
+
+      const filteredFilms = films.filter(({ l }) =>
+        l.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+
+      console.log(filteredFilms, "filteredfilms");
+    }
   }
 
   //start search
@@ -56,9 +99,8 @@ class App {
     }
   }
 
-  getRandomFilm() {
-    const watchList = this.getWatchListData();
-    return watchList[Math.floor(Math.random() * watchList.length)];
+  getRandomFilm(films) {
+    return films[Math.floor(Math.random() * films.length)];
   }
 
   getWatchListData() {
@@ -111,7 +153,9 @@ class App {
 
       const isFilmAddedToWatchList = this.checkIfWatchListContainsFilm(id);
 
-      outputElement.innerHTML += `<div class="film-elem">
+      outputElement.innerHTML += `<div id="${id}" class="film-elem ${
+        isFilmAddedToWatchList ? "watch-list-film" : ""
+      }">
       <div>
         <img src="${imageUrl}" />
         <h3>${title}</h3>
@@ -149,12 +193,29 @@ class App {
   }
 
   renderWatchList() {
-    App.output.style.visibility = "hidden";
-    App.watchListOutput.style.visibility = "visible";
+    App.output.style.display = "none";
+    App.watchListOutput.style.display = "flex";
+
+    App.watchListSwitcher.textContent = "Go to main page";
+
+    this.currentSection = App.SECTION.filmList;
 
     const watchListData = this.getWatchListData();
 
     this.renderData(watchListData, App.watchListOutput, true);
+
+    App.searchButton.style.display = "none";
+  }
+
+  renderMainView() {
+    App.output.style.display = "flex";
+    App.watchListOutput.style.display = "none";
+
+    App.watchListSwitcher.textContent = "Go to watch list";
+
+    this.currentSection = App.SECTION.main;
+
+    App.searchButton.style.display = "flex";
   }
 }
 

@@ -15,11 +15,11 @@ button {
 	cursor: pointer;
 }
 
-button:hover {
+button:hover, #search-button:hover {
 	background: #5d5b5b;
 }
 
-button:active {
+button:active, #search-button:active {
 	background-color: #2a2929;
 }
 

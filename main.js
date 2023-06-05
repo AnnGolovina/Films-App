@@ -47,7 +47,7 @@ class App {
 
       const randomFilmElement = document.querySelector(`#${randomFilmData.id}`);
 
-      randomFilmElement.style.border = "1px solid lime";
+      randomFilmElement.style.border = "2px solid lime";
 
       randomFilmElement.scrollIntoView({ behavior: "smooth" });
     };
@@ -60,7 +60,7 @@ class App {
       if (this.checkIfWatchListContainsFilm(el.id)) {
         el.style.border = "2px solid #6e128a";
       } else {
-        el.style.border = "1px solid white";
+        el.style.border = "2px solid white";
       }
     });
   }
